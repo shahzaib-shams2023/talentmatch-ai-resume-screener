@@ -1,0 +1,12 @@
+services:
+  talentmatch-ai:
+    build: .
+    container_name: talentmatch-service
+    ports:
+      - "8004:8004"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8004
+      - LLM_API_KEY=${LLM_API_KEY:-}
+    restart: unless-stopped
+
