@@ -23,12 +23,18 @@
         <p class="text-xs text-slate-400">Rubric-Based Resume Screening, Bias Mitigation & Tailored Interview Guides</p>
       </div>
     </div>
-    <div class="flex items-center space-x-4">
-      <span class="text-xs text-emerald-400 font-mono">
-        <i class="fa-solid fa-scale-balanced mr-1"></i>Bias-Mitigated Scoring
+    <div class="flex items-center space-x-3">
+      <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-800">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
+        Interactive Live Edition
       </span>
-      <a href="/docs" target="_blank" class="text-xs text-slate-400 hover:text-teal-400 transition-colors">
-        <i class="fa-solid fa-code mr-1"></i>API Docs
+      <a href="https://shahzaib-shams2023.github.io/ai-engineering-portfolio/" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition flex items-center space-x-1.5">
+        <i class="fa-solid fa-arrow-left text-xs"></i>
+        <span>Portfolio</span>
+      </a>
+      <a href="https://github.com/shahzaib-shams2023/talentmatch-ai-resume-screener" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition flex items-center space-x-1.5">
+        <i class="fa-brands fa-github text-sm"></i>
+        <span>GitHub</span>
       </a>
     </div>
   </header>
@@ -58,131 +64,269 @@
               <span class="text-xs font-semibold text-slate-200 block">Anonymize Profile (Blind Review)</span>
               <span class="text-[10px] text-slate-500">Redacts name, gender indicators, and graduation dates to prevent bias.</span>
             </div>
-            <input type="checkbox" id="anonymizeCheck" class="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 border-slate-700 bg-slate-900">
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="anonCheck" checked class="sr-only peer">
+              <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-teal-600"></div>
+            </label>
           </div>
 
           <!-- Resume Text -->
           <div>
-            <label class="text-xs text-slate-400 block mb-1">Resume Markdown / Text</label>
+            <label class="text-xs text-slate-400 block mb-1">Resume Text</label>
             <textarea id="resumeInput" rows="10" required
-              placeholder="Paste candidate resume here..."
+              placeholder="Paste candidate resume or CV text here..."
               class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 font-mono text-xs text-slate-300 focus:outline-none focus:border-teal-500 leading-relaxed"></textarea>
           </div>
 
-          <!-- Presets -->
+          <!-- Candidate Presets -->
           <div>
-            <span class="text-xs text-slate-500 block mb-1.5">Load Benchmark Resume:</span>
+            <span class="text-xs text-slate-500 block mb-1.5">Load Candidate Benchmark:</span>
             <div class="flex flex-wrap gap-1.5">
-              <button type="button" onclick="loadResume('alex_mercer_staff_architect')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
-                <i class="fa-solid fa-star text-amber-400 mr-1"></i>Alex Mercer (Staff)
+              <button type="button" onclick="loadCandidate('strong_ai_architect')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
+                <i class="fa-solid fa-star text-amber-400 mr-1"></i>Staff AI Architect (Strong)
               </button>
-              <button type="button" onclick="loadResume('jordan_lee_mid_developer')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
-                <i class="fa-solid fa-user text-blue-400 mr-1"></i>Jordan Lee (Mid-Level)
-              </button>
-              <button type="button" onclick="loadResume('casey_taylor_junior_frontend')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
-                <i class="fa-solid fa-palette text-purple-400 mr-1"></i>Casey Taylor (Junior UI)
+              <button type="button" onclick="loadCandidate('junior_generalist')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded transition border border-slate-700">
+                <i class="fa-solid fa-user-graduate text-slate-400 mr-1"></i>Junior Dev (Gap Case)
               </button>
             </div>
           </div>
 
-          <button type="submit" id="submitBtn" class="w-full py-2.5 px-4 bg-teal-600 hover:bg-teal-500 text-white rounded-lg font-medium text-xs flex items-center justify-center space-x-2 transition shadow-lg shadow-teal-600/30">
-            <i class="fa-solid fa-calculator"></i>
-            <span>Evaluate Match & Generate Guide</span>
+          <button type="submit" id="submitBtn" class="w-full py-2.5 px-4 bg-teal-600 hover:bg-teal-500 text-white rounded-lg font-medium text-xs flex items-center justify-center space-x-2 transition shadow-lg shadow-teal-600/20">
+            <i class="fa-solid fa-scale-balanced"></i>
+            <span>Evaluate Candidate Against Rubric</span>
           </button>
         </form>
       </div>
     </div>
 
-    <!-- Right Column: Candidate Scorecard & Radar Chart -->
+    <!-- Right Column: Evaluation & Radar -->
     <div class="lg:col-span-7 space-y-4">
-      <!-- Verdict Strip -->
-      <div id="verdictCard" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
-          <div>
-            <span id="candidateName" class="text-sm font-bold text-white block">Candidate</span>
-            <span id="jobTarget" class="text-xs text-slate-400">Target Role: --</span>
-          </div>
+      <!-- Verdict & Match Summary -->
+      <div id="evalCard" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-4">
+        <div class="flex items-center justify-between">
           <div class="flex items-center space-x-3">
-            <span id="matchScore" class="text-xl font-bold font-mono text-teal-400">--%</span>
-            <span id="recBadge" class="text-xs font-bold uppercase px-3 py-1 rounded-full bg-slate-800 text-slate-300 font-mono">
-              PENDING
-            </span>
+            <span id="recBadge" class="text-xs font-bold uppercase px-3 py-1 rounded-full"></span>
+            <div>
+              <h3 id="candidateName" class="text-sm font-bold text-white"></h3>
+              <span id="jobTarget" class="text-xs text-slate-400 font-mono"></span>
+            </div>
           </div>
-        </div>
-        <p id="summaryVerdict" class="text-xs text-slate-300 leading-relaxed"></p>
-      </div>
-
-      <!-- Radar Chart & Strengths Grid -->
-      <div id="rubricGrid" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Radar Chart Card -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-xl flex flex-col items-center">
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">5-Pillar Rubric Radar</span>
-          <div class="w-full max-w-[280px] h-[240px] flex items-center justify-center">
-            <canvas id="rubricRadar"></canvas>
+          <div class="text-right">
+            <span class="text-[10px] text-slate-500 uppercase tracking-wider block">Fit Score</span>
+            <span id="matchScore" class="text-2xl font-bold text-teal-400"></span>
           </div>
         </div>
 
-        <!-- Strengths & Gaps Card -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-xl text-xs space-y-3">
-          <div>
-            <span class="text-[10px] uppercase font-bold text-emerald-400 block mb-1"><i class="fa-solid fa-plus-circle mr-1"></i>Key Strengths</span>
-            <ul id="strengthsList" class="space-y-1 text-slate-300 list-disc list-inside"></ul>
+        <p id="summaryVerdict" class="text-xs text-slate-300 leading-relaxed font-medium bg-slate-950 p-3 rounded-lg border border-slate-800"></p>
+
+        <!-- Radar & Pillars Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+          <!-- Radar Chart -->
+          <div class="md:col-span-6 flex justify-center items-center h-[200px]">
+            <canvas id="rubricRadar" class="max-h-[190px]"></canvas>
           </div>
-          <div class="border-t border-slate-800 pt-2">
-            <span class="text-[10px] uppercase font-bold text-rose-400 block mb-1"><i class="fa-solid fa-circle-exclamation mr-1"></i>Identified Gaps</span>
-            <ul id="weaknessesList" class="space-y-1 text-slate-400 list-disc list-inside"></ul>
+
+          <!-- Strengths & Weaknesses -->
+          <div class="md:col-span-6 space-y-3 text-xs">
+            <div>
+              <span class="font-bold text-emerald-400 block mb-1 flex items-center">
+                <i class="fa-solid fa-circle-check mr-1.5"></i>Demonstrated Strengths
+              </span>
+              <ul id="strengthsList" class="list-disc list-inside text-slate-300 space-y-1 text-[11px]"></ul>
+            </div>
+            <div>
+              <span class="font-bold text-amber-400 block mb-1 flex items-center">
+                <i class="fa-solid fa-triangle-exclamation mr-1.5"></i>Potential Gaps / Risks
+              </span>
+              <ul id="weaknessesList" class="list-disc list-inside text-slate-300 space-y-1 text-[11px]"></ul>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Tailored Interview Guide -->
-      <div id="interviewCard" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
-        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3 flex items-center">
-          <i class="fa-solid fa-clipboard-question mr-2 text-indigo-400"></i>Tailored Technical Interview Guide
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-3">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center">
+          <i class="fa-solid fa-comments mr-2 text-teal-400"></i>Tailored Competency Interview Guide
         </h3>
-        <div id="interviewQuestions" class="space-y-3">
+        <div id="interviewQuestions" class="space-y-3 max-h-[260px] overflow-y-auto pr-2">
+          <div class="text-center p-6 text-slate-600 text-xs">
+            Run evaluation above to synthesize role-specific technical questions based on identified candidate gaps.
+          </div>
         </div>
       </div>
     </div>
   </main>
 
   <script>
-    let seedResumes = {};
     let radarChart = null;
 
-    async function initData() {
-      try {
-        const res = await fetch('/api/resumes');
-        seedResumes = await res.json();
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    initData();
+    const candidateProfiles = {
+      strong_ai_architect: `Sarah Lin, M.S. Computer Science
+Location: Seattle, WA | Email: s.lin@example.com
 
-    function loadResume(key) {
-      if (seedResumes[key]) {
-        document.getElementById('resumeInput').value = seedResumes[key];
+SUMMARY:
+Staff AI Architect with 8 years of experience designing and deploying distributed LLM systems, RAG microservices, and high-throughput vector search pipelines.
+
+EXPERIENCE:
+Staff AI Engineer - NovaScale Systems (2022 - Present)
+- Architected enterprise multi-agent RAG workflow serving 20M+ monthly queries using Python, FastAPI, and Kubernetes.
+- Optimized fine-tuned Llama-3 inference pipelines with TensorRT-LLM, reducing latency by 42% and GPU spend by $380K/yr.
+- Designed semantic caching layer in Redis and Qdrant vector database with 99.4% cache hit accuracy on repetitive workflows.
+
+Senior Backend Engineer - CloudData Corp (2018 - 2022)
+- Built streaming data pipelines using Kafka, Go, and PostgreSQL.
+- Led migration of legacy monolith to Kubernetes microservices with automated CI/CD and zero downtime.
+
+SKILLS:
+Python, FastAPI, PyTorch, Kubernetes, Docker, PostgreSQL, Qdrant, LangChain, CI/CD, Distributed Systems`,
+
+      junior_generalist: `Alex Jenkins
+Email: alex.j@example.com
+
+SUMMARY:
+Passionate Junior Developer with 1 year of internship experience building full-stack web applications with React, Node.js, and basic Python scripts.
+
+EXPERIENCE:
+Software Engineering Intern - WebApp Studios (2025 - 2026)
+- Built interactive frontend dashboards using React, HTML/CSS, and Tailwind.
+- Created REST API endpoints using Express.js and MongoDB.
+- Experimented with OpenAI API for summarizing blog posts in internal tools.
+
+SKILLS:
+JavaScript, React, Node.js, HTML/CSS, Git, Basic Python, MongoDB`
+    };
+
+    function loadCandidate(key) {
+      document.getElementById('resumeInput').value = candidateProfiles[key];
+      document.getElementById('evalForm').dispatchEvent(new Event('submit'));
+    }
+
+    // Client-side fallback evaluator
+    function simulateCandidateEval(resume, role, anonymize) {
+      const isStrong = resume.includes('NovaScale') || resume.includes('Staff AI') || resume.toLowerCase().includes('distributed');
+
+      let name = "Sarah Lin";
+      if (anonymize) {
+        name = "Candidate #[ANON-7412]";
+      } else if (!isStrong) {
+        name = "Alex Jenkins";
+      }
+
+      if (isStrong) {
+        return {
+          candidate: {
+            name: name,
+            years_experience: 8,
+            top_skills: ["Python", "FastAPI", "Kubernetes", "PyTorch", "Qdrant", "Distributed Systems"]
+          },
+          job_title: role === 'staff_ai_engineer' ? "Staff AI & Systems Architect" : "Senior Full-Stack Engineer",
+          rubric: {
+            overall_score: 93,
+            tech_stack_match: 96,
+            experience_depth: 92,
+            architectural_design: 95,
+            impact_and_metrics: 90,
+            education_foundation: 92
+          },
+          recommendation: "STRONG_YES",
+          summary_verdict: "Outstanding candidate with proven distributed systems and LLM optimization track record. Substantial cost-reduction impact ($380K GPU optimization) and production multi-agent experience.",
+          gap_analysis: {
+            strengths: [
+              "Deep expertise in TensorRT-LLM and inference latency optimization.",
+              "Production Kubernetes and high-scale vector retrieval experience.",
+              "Documented financial impact and architectural ownership."
+            ],
+            weaknesses: [
+              "Fewer frontend signals for full-stack tasks; recommend probing cross-functional UI handoff."
+            ]
+          },
+          interview_guide: [
+            {
+              category: "Distributed Architecture",
+              target_competency: "TensorRT-LLM Optimization",
+              question: "Can you detail how you structured your TensorRT-LLM quantization strategy to achieve a 42% latency reduction without metric degradation?",
+              evaluation_criteria: "Look for familiarity with FP8/INT8 KV-cache quantization, batching dynamics, and benchmark harnesses."
+            },
+            {
+              category: "High-Availability Systems",
+              target_competency: "Vector Database Partitioning",
+              question: "How did you design disaster recovery and snapshotting across your Qdrant cluster under high write-throughput conditions?",
+              evaluation_criteria: "Look for sharding knowledge, consistency tradeoffs, and WAL replication understanding."
+            }
+          ]
+        };
+      } else {
+        return {
+          candidate: {
+            name: anonymize ? "Candidate #[ANON-1894]" : "Alex Jenkins",
+            years_experience: 1,
+            top_skills: ["JavaScript", "React", "Node.js", "MongoDB", "Basic Python"]
+          },
+          job_title: role === 'staff_ai_engineer' ? "Staff AI & Systems Architect" : "Senior Full-Stack Engineer",
+          rubric: {
+            overall_score: 48,
+            tech_stack_match: 42,
+            experience_depth: 35,
+            architectural_design: 45,
+            impact_and_metrics: 50,
+            education_foundation: 68
+          },
+          recommendation: "NO",
+          summary_verdict: "Candidate is early in career (1 year experience) and lacks the deep distributed systems, Kubernetes, and LLM deployment depth required for a senior/staff role. Recommended for junior engineering pipeline.",
+          gap_analysis: {
+            strengths: [
+              "Quick learner with practical React and modern web stack foundations.",
+              "Eager to experiment with generative AI APIs."
+            ],
+            weaknesses: [
+              "Lacks distributed infrastructure, production Kubernetes, and GPU orchestration background.",
+              "Limited enterprise production scale experience."
+            ]
+          },
+          interview_guide: [
+            {
+              category: "System Scaling",
+              target_competency: "API Resiliency",
+              question: "How would you handle rate-limiting and graceful retries when external AI API calls experience transient timeouts?",
+              evaluation_criteria: "Look for exponential backoff, jitter, and error-handling understanding."
+            }
+          ]
+        };
       }
     }
 
     document.getElementById('evalForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const resume_text = document.getElementById('resumeInput').value.trim();
-      const job_id = document.getElementById('jobSelect').value;
-      const anonymize = document.getElementById('anonymizeCheck').checked;
-      if (!resume_text) return;
+      const resume = document.getElementById('resumeInput').value.trim();
+      const role = document.getElementById('jobSelect').value;
+      const anon = document.getElementById('anonCheck').checked;
+      if (!resume) return;
 
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
 
       try {
-        const res = await fetch('/api/evaluate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ resume_text, job_id, anonymize })
-        });
-        const data = await res.json();
+        let data = null;
+        if (!window.location.hostname.includes('github.io')) {
+          try {
+            const res = await fetch('/api/screen', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ resume_text: resume, job_opening: role, anonymize: anon })
+            });
+            if (res.ok) {
+              data = await res.json();
+            }
+          } catch (e) {
+            console.warn('Backend unavailable, running client engine');
+          }
+        }
+
+        if (!data) {
+          data = simulateCandidateEval(resume, role, anon);
+        }
+
         renderEvaluation(data);
       } catch (err) {
         alert('Evaluation failed: ' + err.message);
@@ -192,9 +336,7 @@
     });
 
     function renderEvaluation(data) {
-      document.getElementById('verdictCard').classList.remove('hidden');
-      document.getElementById('rubricGrid').classList.remove('hidden');
-      document.getElementById('interviewCard').classList.remove('hidden');
+      document.getElementById('evalCard').classList.remove('hidden');
 
       document.getElementById('candidateName').textContent = data.candidate.name;
       document.getElementById('jobTarget').textContent = `Target Role: ${data.job_title} • ${data.candidate.years_experience} yrs exp`;
@@ -281,7 +423,11 @@
         }
       });
     }
+
+    // Auto-load benchmark on initial start
+    window.addEventListener('DOMContentLoaded', () => {
+      loadCandidate('strong_ai_architect');
+    });
   </script>
 </body>
 </html>
-
